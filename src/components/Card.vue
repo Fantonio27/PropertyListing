@@ -73,6 +73,7 @@ $gray-text: #8096A0;
 .card-content{
     border: 1px solid #495567;
     padding: 20px;
+    border-radius: 0px 0px 10px 10px;
 
     .card-title{ 
         font-size: 16px;

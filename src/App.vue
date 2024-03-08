@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import Header from "./components/Header.vue";
 import Card from "./components/Card.vue";
-import {type Filter} from "./type/interfaces.ts";
+import {type Filter, type Cate} from "./type/interfaces.ts";
 
-import { onMounted, ref } from "vue";
+import { onMounted, watch, ref, reactive} from "vue";
 
-const dataform = ref([])
-const filterTag = ref<Filter>({
+const dataform= ref([])
+const filterTag= reactive<Filter>({
     All: true,
     Norway: false,
     Finland: false,
@@ -25,16 +25,47 @@ onMounted(async()=>{
   dataform.value = data;
 })
 
+// interface scacasc {
+//   [key: string]: boolean
+// }
+
 const filteredCountries = (item: keyof Filter, event: any) => {
-  // filterTag.value[item] = !filterTag.value[item];
-  console.log(filterTag.value)
+  filterTag[item] = !filterTag[item];
+  // const keys = Object.keys(filterTag.value)
+  // const array = keys.every((key: keyof scacasc)=> { filterTag.value[key]})
+  // console.log(array)
 }
 
+// const haha: Filter= {
+//   All: true,
+//     Norway: false,
+//     Finland: false,
+//     Sweden: false,
+//     Switzerland: false, 
+//     propertyType:2,
+//     superhost: false,
+// }
 
+
+// const reos= Object.keys(haha).every((key: keyof scacasc)=> {
+//   console.log(haha[key: type keyof scacasc])
+// })
+const cacsac = ref({
+  Select: true,
+  cacas: true,
+})
+watch(filterTag, ()=> {
+  console.log("changes")
+})
+
+const cascasc = () => {
+  cacsac.value.Select = false
+}
 </script>
 
 <template>
   <div>
+    <!-- <button @click="cascasc">cacas</button> -->
     <Header title="Peace, nature, dream" description="find and book a great experience" @addCountry="filteredCountries" :filterTag="filterTag"/>
 
     <section>
@@ -73,10 +104,30 @@ section{
 
 .card-container{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
   place-items: center;
 }
+
+
+@media screen and (max-width: 1439px) {
+  section{
+    width: 85%;
+  }  
+}
+
+@media screen and (max-width: 1023px) {
+  section {
+    width: 80%;
+  } 
+}
+
+
+@media screen and (max-width: 767px) {
+
+}
+
+
 
 
 </style>

@@ -8,6 +8,7 @@ const items = ['All', 'Norway', 'Finland', 'Sweden', 'Switzerland']
 const filtered = (country: string) => {
     return props.filterTag[country as keyof Filter]
 }
+
 </script>
 
 <template>
@@ -66,7 +67,7 @@ nav {
         list-style: none;
         padding: 8px 13px;
         border-radius: 8px;
-        font-size: 16px;
+        font-size: clamp(14px, 1vw, 16px);
         cursor: pointer;
         transition: 0.3s linear;
 
@@ -96,6 +97,7 @@ nav {
             width: 100%;
             margin: auto;
             display: block;
+            font-size: clamp(12px, 1vw, 14px);
         }
     }
 
@@ -156,6 +158,36 @@ nav {
 
 .toggle-switch .toggle-input:checked+.toggle-label::before {
     transform: translateX(16px);
+}
+
+@media screen and (max-width: 1439px){
+    nav{
+        width: 80%;
+    }
+}
+
+
+@media screen and (max-width: 1023px){
+    nav{
+       flex-direction: column;
+       gap: 20px;
+       padding: 20px 0px;
+       bottom: -4.5rem;
+    }
+}
+
+@media screen and (max-width: 767px){
+    nav{
+       width: 95%;
+       flex-direction: row;
+       justify-content: space-evenly;
+    }
+
+    .tab> ul, .side-tab{
+        flex-direction: column;
+        text-align: center;
+    }
+
 }
 
 </style>
