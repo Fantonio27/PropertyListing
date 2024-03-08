@@ -1,21 +1,46 @@
 <script setup lang="ts">
 import Header from "./components/Header.vue";
 import Card from "./components/Card.vue";
-// import data from "./assets/property-listing-data.json";
-// import Content from "./type/interfaces.ts"
+import {type Filter} from "./type/interfaces.ts";
 
-// const {capacity, id, title, description, price,rating, superhost, location, image } : Content[] = data;
+import { onMounted, ref } from "vue";
+
+const dataform = ref([])
+const filterTag = ref<Filter>({
+    All: true,
+    Norway: false,
+    Finland: false,
+    Sweden: false,
+    Switzerland: false, 
+    propertyType:2,
+    superhost: false,
+})
+
+// const propertyType = ref<number>(0)
+// const superhost = ref<boolean>(0)
+
+onMounted(async()=>{
+  const response = await fetch("https://raw.githubusercontent.com/devchallenges-io/web-project-ideas/main/front-end-projects/data/property-listing-data.json")
+  const data = await response.json()
+  dataform.value = data;
+})
+
+const filteredCountries = (item: keyof Filter, event: any) => {
+  // filterTag.value[item] = !filterTag.value[item];
+  console.log(filterTag.value)
+}
+
 
 </script>
 
 <template>
   <div>
-    <Header title="Peace, nature, dream" description="find and book a great experience" />
+    <Header title="Peace, nature, dream" description="find and book a great experience" @addCountry="filteredCountries" :filterTag="filterTag"/>
 
     <section>
       <h2>Over 200 stays</h2>
       <div class="card-container">
-        <Card v-for="n in 3"/>
+        <Card v-for="(data, index) in dataform" :key="index" :data="data"/>
       </div>
     </section>
   </div>

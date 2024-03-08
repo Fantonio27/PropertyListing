@@ -1,33 +1,37 @@
 <script setup lang="ts">
+    import { Content } from "../type/interfaces.ts";
+
+    defineProps<{data: Content}>();
 
 </script>
 
 <template lang="">
     <div class="card">
-        <div class="badge">
+        <div class="badge" v-if="data.superhost">
             <p>Superhost</p>
             <img src="../assets/images/star.svg" alt="starIcon" class="badge-icon"/>
         </div>
-        <img src="https://csyxkpbavpcrhwqhcpyy.supabase.co/storage/v1/object/public/assets/property-challenge/thumbnail-1.jpg" alt="">
+        <img :src="data.image" :alt="data.title">
       
         <div class="card-content">
-            <h2 class="card-title">Cozy Cabin in the Woods</h2>
-            <p class="card-description">Immerse yourself in the beauty of the Nordic landscape at this sleek and stylish cabin. With floor-to-ceiling windows and a spacious deck, you'll have breathtaking views of the surrounding mountains.</p>
+            {{data.location}}
+            <h2 class="card-title">{{data.title}}</h2>
+            <p class="card-description">{{data.description}}</p>
             <div class="card-property">
                 <div>
                     <img src="../assets/images/house.svg" alt="houseIcon" />
-                    <p class="card-smallText">2 bedroom</p>
+                    <p class="card-smallText">{{data.capacity.bedroom}} bedroom</p>
                 </div>
                 <div>
                     <img src="../assets/images/guest.svg" alt="guestIcon" />
-                    <p class="card-smallText">3 guest</p>
+                    <p class="card-smallText">{{data.capacity.people}} guest</p>
                 </div>
             </div>
             <div class="card-info">
-                <p class="card-price">$250<span>/night</span></p>
+                <p class="card-price">{{data.price}}<span>/night</span></p>
                 <div>
                     <img src="../assets/images/star.svg" alt="starIcon" class="star-icon"/>
-                    <p class="card-rate">4.9</p>
+                    <p class="card-rate">{{data.rating}}</p>
                 </div>
             </div>
         </div>
