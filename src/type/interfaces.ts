@@ -14,13 +14,13 @@ export interface Content {
 }
 
 export type Filter = {
-    All : boolean | string,
-    "Norway": boolean | string,
-    "Finland": boolean | string,
-    "Sweden": boolean | string,
-    "Switzerland": boolean | string, 
-    "propertyType": number | boolean,
-    "superhost": boolean | string
+    All : boolean,
+    Norway: boolean,
+    Finland: boolean,
+    Sweden: boolean,
+    Switzerland: boolean, 
+    propertyType: number | boolean,
+    superhost: boolean
 }
 
 export type Cate = "All" | "Norway" | "Finland" | "Sweden" | "Switzerland" | "propertyType" | "superhost";

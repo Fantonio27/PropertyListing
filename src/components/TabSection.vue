@@ -15,7 +15,7 @@ const filtered = (country: string) => {
     <nav>
         <div class="tab">
             <ul>
-                <li v-for="(item, index) in items" :key="index" :class="{ active: filtered(item) }" @click="$emit('addCountry', item, $event)" :name="false" id="cascasc">
+                <li v-for="(item, index) in items" :key="index" :class="{ active: filtered(item) }" @click="$emit('addCountry', item)" :name="false" id="cascasc">
                     {{ index == 0? `${item} Stays`: item }}
                 </li>
             </ul>
@@ -166,7 +166,6 @@ nav {
     }
 }
 
-
 @media screen and (max-width: 1023px){
     nav{
        flex-direction: column;
@@ -178,7 +177,7 @@ nav {
 
 @media screen and (max-width: 767px){
     nav{
-       width: 95%;
+       width: 90%;
        flex-direction: row;
        justify-content: space-evenly;
     }
@@ -186,6 +185,7 @@ nav {
     .tab> ul, .side-tab{
         flex-direction: column;
         text-align: center;
+        gap: 5px;
     }
 
 }

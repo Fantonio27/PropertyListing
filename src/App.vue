@@ -1,78 +1,86 @@
 <script setup lang="ts">
 import Header from "./components/Header.vue";
 import Card from "./components/Card.vue";
-import {type Filter, type Cate} from "./type/interfaces.ts";
+import {type Filter, Content} from "./type/interfaces.ts";
 
 import { onMounted, watch, ref, reactive} from "vue";
 
-const dataform= ref([])
+const dataform = ref<Content[]>([])
 const filterTag= reactive<Filter>({
     All: true,
     Norway: false,
     Finland: false,
     Sweden: false,
     Switzerland: false, 
-    propertyType:2,
+    propertyType:0,
     superhost: false,
 })
 
-// const propertyType = ref<number>(0)
-// const superhost = ref<boolean>(0)
+const dataFilter  = ref<Content[]>([])
 
 onMounted(async()=>{
-  const response = await fetch("https://raw.githubusercontent.com/devchallenges-io/web-project-ideas/main/front-end-projects/data/property-listing-data.json")
+  const response = await fetch("https://raw.githubusercontent.com/devchallenges-io/web-project-ideas/main/front-end-projects/data/property-listing-data.json") 
   const data = await response.json()
   dataform.value = data;
+  dataFilter.value = data;
 })
 
-// interface scacasc {
-//   [key: string]: boolean
-// }
+const filteredCountries = (item: keyof Filter) => {
+  const keys = Object.keys(filterTag).slice(1,5)
 
-const filteredCountries = (item: keyof Filter, event: any) => {
-  filterTag[item] = !filterTag[item];
-  // const keys = Object.keys(filterTag.value)
-  // const array = keys.every((key: keyof scacasc)=> { filterTag.value[key]})
-  // console.log(array)
+  if(item == "All"){
+    filterTag.All = true
+    keys.forEach((key)=> {
+      filterTag[key as keyof typeof filterTag] = false;
+    })
+  }else{
+    filterTag.All = false
+    filterTag[item] = !filterTag[item];
+  }
+
 }
 
-// const haha: Filter= {
-//   All: true,
-//     Norway: false,
-//     Finland: false,
-//     Sweden: false,
-//     Switzerland: false, 
-//     propertyType:2,
-//     superhost: false,
-// }
+watch(filterTag, ()=>{
 
+  // const keys = Object.keys(filterTag).slice(0,5)
+  // const everyArray = keys.every((key)=> {
+  //   const attr = filterTag[key as keyof typeof filterTag]
+  //   if(attr == false){
+  //     return true
+  //   }
+  // })
 
-// const reos= Object.keys(haha).every((key: keyof scacasc)=> {
-//   console.log(haha[key: type keyof scacasc])
-// })
-const cacsac = ref({
-  Select: true,
-  cacas: true,
+  const filterMethod = ()=> {
+    return dataform.value.filter((data)=> {
+      return (filterTag.propertyType == 0 ?  data.capacity.bedroom >= 1  :data.capacity.bedroom == filterTag.propertyType ) &&
+      (filterTag.superhost ? data.superhost : (data.superhost == true || data.superhost == false )) &&
+      (
+        (filterTag.All && data.id >= 0) ||
+        (filterTag.Norway && data.location == "Norway")  || 
+        (filterTag.Finland && data.location == "Finland") || 
+        (filterTag.Sweden && data.location == "Sweden") || 
+        (filterTag.Switzerland && data.location == "Switzerland")
+      )
+    })
+  }
+  
+  dataFilter.value = filterMethod()
 })
-watch(filterTag, ()=> {
-  console.log("changes")
-})
 
-const cascasc = () => {
-  cacsac.value.Select = false
-}
+
 </script>
 
 <template>
   <div>
-    <!-- <button @click="cascasc">cacas</button> -->
     <Header title="Peace, nature, dream" description="find and book a great experience" @addCountry="filteredCountries" :filterTag="filterTag"/>
 
     <section>
       <h2>Over 200 stays</h2>
+
       <div class="card-container">
-        <Card v-for="(data, index) in dataform" :key="index" :data="data"/>
+          <Card v-for="(data, index) in dataFilter" :key="index" :data="data"/> 
       </div>
+      <h2 class="alert-message" v-if="dataFilter.length == 0">No Records Found</h2>
     </section>
   </div>
 
@@ -104,11 +112,21 @@ section{
 
 .card-container{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
   gap: 30px;
   place-items: center;
 }
 
+.alert-message{
+    font-weight: 400;
+    background-color: #f1f9fee4;
+    width: 100%;
+    color: #121826;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px 0px;
+    font-size: 1.2rem;
+  }
 
 @media screen and (max-width: 1439px) {
   section{
@@ -120,14 +138,11 @@ section{
   section {
     width: 80%;
   } 
+
+  .card-container{
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
 }
-
-
-@media screen and (max-width: 767px) {
-
-}
-
-
 
 
 </style>

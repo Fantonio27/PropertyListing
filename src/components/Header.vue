@@ -10,8 +10,8 @@ defineProps<{
 
 const emit = defineEmits(['addCountry']);
 
-const onClick = (item: string, event: any) => {
-    emit('addCountry', item, event);
+const onClick = (item: string) => {
+    emit('addCountry', item);
 };
 </script>
 

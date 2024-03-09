@@ -6,7 +6,7 @@
 </script>
 
 <template lang="">
-    <div class="card">
+    <div class="card" >
         <div class="badge" v-if="data.superhost">
             <p>Superhost</p>
             <img src="../assets/images/star.svg" alt="starIcon" class="badge-icon"/>
@@ -14,7 +14,6 @@
         <img :src="data.image" :alt="data.title">
       
         <div class="card-content">
-            {{data.location}}
             <h2 class="card-title">{{data.title}}</h2>
             <p class="card-description">{{data.description}}</p>
             <div class="card-property">
@@ -35,7 +34,6 @@
                 </div>
             </div>
         </div>
-       
     </div>
 </template>
 
@@ -47,9 +45,9 @@ $gray-text: #8096A0;
         width: 100%;
         border-radius: 10px 10px 0px 0px;
         display: block;
+        object-fit: contain;
     }
 }
-
 
 .badge {
     display: flex;
@@ -76,7 +74,7 @@ $gray-text: #8096A0;
     border-radius: 0px 0px 10px 10px;
 
     .card-title{ 
-        font-size: 16px;
+        font-size: clamp(15px,2vw,16px);
     }
 
     .card-description{
