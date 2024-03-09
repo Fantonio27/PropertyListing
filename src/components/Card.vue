@@ -5,7 +5,7 @@
 
 </script>
 
-<template lang="">
+<template>
     <div class="card" >
         <div class="badge" v-if="data.superhost">
             <p>Superhost</p>

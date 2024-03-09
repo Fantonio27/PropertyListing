@@ -15,14 +15,16 @@ const onClick = (item: string) => {
 };
 </script>
 
-<template lang="">
+<template>
+  
   <header>
     <div>
       <h1>{{ title }}</h1>
       <p>{{ description }}</p>
 
+      <TabSection :filterTag="filterTag" @addCountry="onClick" />
     </div>
-    <TabSection :filterTag="filterTag" @addCountry="onClick" />
+   
   </header>
 </template>
 
